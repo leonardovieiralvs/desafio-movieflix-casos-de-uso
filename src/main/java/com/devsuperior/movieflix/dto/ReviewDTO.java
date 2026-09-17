@@ -25,6 +25,9 @@ public class ReviewDTO {
     public ReviewDTO(Review review) {
         text = review.getText();
         movieId = review.getMovie().getId();
+        userId = review.getUser().getId();
+        userName = review.getUser().getName();
+        userEmail = review.getUser().getEmail();
     }
 
     public Long getId() {

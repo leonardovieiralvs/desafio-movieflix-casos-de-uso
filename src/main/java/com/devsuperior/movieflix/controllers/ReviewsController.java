@@ -20,9 +20,9 @@ public class ReviewsController {
     @PreAuthorize("hasRole('MEMBER')")
     @PostMapping()
     public ResponseEntity<ReviewDTO> insert(@RequestBody @Valid ReviewDTO reviewDTO) {
-        reviewService.insert(reviewDTO);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(reviewService.insert(reviewDTO));
     }
 
     public ReviewsController(ReviewService reviewService) {

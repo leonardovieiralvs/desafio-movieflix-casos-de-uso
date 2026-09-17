@@ -4,6 +4,7 @@ import com.devsuperior.movieflix.dto.MovieDetailsDTO;
 import com.devsuperior.movieflix.services.MovieService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -30,14 +31,15 @@ public class MoviesController {
     @GetMapping("{id}/reviews")
     public ResponseEntity<Page<MovieDetailsDTO>> findAllPaged(@PathVariable Long id, Pageable pageable) {
 
-        return ResponseEntity.ok().body(movieService.findAll(id, pageable));
+        return ResponseEntity.ok().body(movieService.findById(id, pageable));
     }
 
+    @PreAuthorize("hasAnyRole('VISITOR', 'MEMBER')")
     @GetMapping
-    public ResponseEntity<Page<MovieDetailsDTO>> findGenrePaged(@RequestParam(name = "genreId", defaultValue = "0") Long genreId,
-                                                           Pageable pageable) {
+    public ResponseEntity<Page<MovieDetailsDTO>> findAll(@RequestParam(name = "genreId", defaultValue = "0") Long genreId,
+                                                         @PageableDefault(size = 12, sort = "title") Pageable pageable) {
 
-        Page<MovieDetailsDTO> pageGenreId = movieService.findPageGenreId(genreId, pageable);
-        return ResponseEntity.ok().body(pageGenreId);
+        Page<MovieDetailsDTO> page = movieService.findAll(genreId, pageable);
+        return ResponseEntity.ok(page);
     }
 }
