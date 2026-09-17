@@ -26,14 +26,6 @@ public class MoviesController {
         return ResponseEntity.ok().body(movieService.findById(id));
     }
 
-
-    @PreAuthorize("hasAnyRole('VISITOR', 'MEMBER')")
-    @GetMapping("{id}/reviews")
-    public ResponseEntity<Page<MovieDetailsDTO>> findAllPaged(@PathVariable Long id, Pageable pageable) {
-
-        return ResponseEntity.ok().body(movieService.findById(id, pageable));
-    }
-
     @PreAuthorize("hasAnyRole('VISITOR', 'MEMBER')")
     @GetMapping
     public ResponseEntity<Page<MovieDetailsDTO>> findAll(@RequestParam(name = "genreId", defaultValue = "0") Long genreId,
